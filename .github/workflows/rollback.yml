@@ -1,0 +1,61 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to roll back
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      ref:
+        description: Git ref to restore
+        required: true
+      reason:
+        description: Reason for rollback
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    name: rollback
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Run rollback command
+        shell: bash
+        env:
+          ROLLBACK_COMMAND: ${{ secrets.ROLLBACK_COMMAND }}
+        run: |
+          set -euo pipefail
+          if [ -n "${ROLLBACK_COMMAND:-}" ]; then
+            bash -lc "$ROLLBACK_COMMAND"
+          else
+            echo 'No ROLLBACK_COMMAND secret configured. Recording audited dry run.'
+          fi
+      - name: Persist rollback log
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > rollback-log.json <<JSON
+          {
+            "repository": "${{ github.repository }}",
+            "run_id": "${{ github.run_id }}",
+            "environment": "${{ inputs.environment }}",
+            "ref": "${{ inputs.ref }}",
+            "reason": "${{ inputs.reason }}",
+            "requested_by": "${{ github.actor }}"
+          }
+          JSON
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rollback-log-${{ github.run_id }}
+          path: rollback-log.json
+          retention-days: 30
