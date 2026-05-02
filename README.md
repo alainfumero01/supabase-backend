@@ -45,3 +45,19 @@ This keeps approvals written, retained, and auditable inside GitHub.
 6. Download the generated rollback artifact and confirm the rollback target, operator, and reason.
 
 The CI workflow also runs a rollback smoke test so the rollback manifest path is continuously validated.
+
+## Schema Assets
+
+The ONYX-15 ERP database foundation is versioned in this repository:
+
+- `supabase/migrations/20260502165000_onyx15_erp_foundation.sql`
+- `docs/erp-schema.md`
+
+Highlights:
+
+- covers Finance, HR, and Operations base tables
+- enables and forces RLS on every application table in `public`
+- keeps the schema default-deny by shipping no allow-policies yet
+- makes `audit_log` append-only with DB triggers
+- enforces DB-level separation of duties for payroll approvals and wire transfer authorizations
+- applied and verified on Supabase dev environment `qentzpnjewwlzitrigsu`
