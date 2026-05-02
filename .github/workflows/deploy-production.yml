@@ -1,0 +1,246 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to deploy
+        required: true
+        default: main
+      approver_one:
+        description: First GitHub reviewer username
+        required: true
+      approver_two:
+        description: Second GitHub reviewer username
+        required: true
+      change_summary:
+        description: Short deployment summary
+        required: true
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  open-approval-request:
+    name: open-approval-request
+    runs-on: ubuntu-latest
+    outputs:
+      issue_number: ${{ steps.create_issue.outputs.issue_number }}
+    steps:
+      - name: Validate approvers and create approval issue
+        id: create_issue
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
+          APPROVER_ONE: ${{ inputs.approver_one }}
+          APPROVER_TWO: ${{ inputs.approver_two }}
+          REF_TO_DEPLOY: ${{ inputs.ref }}
+          CHANGE_SUMMARY: ${{ inputs.change_summary }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import requests
+
+          token = os.environ['GH_TOKEN']
+          repo = os.environ['REPO']
+          actor = os.environ['ACTOR']
+          approver_one = os.environ['APPROVER_ONE'].strip()
+          approver_two = os.environ['APPROVER_TWO'].strip()
+          ref_to_deploy = os.environ['REF_TO_DEPLOY'].strip()
+          change_summary = os.environ['CHANGE_SUMMARY'].strip()
+
+          if not approver_one or not approver_two:
+              raise SystemExit('Both approver usernames are required.')
+          if approver_one == approver_two:
+              raise SystemExit('Two distinct approvers are required.')
+          if actor in {approver_one, approver_two}:
+              raise SystemExit('The deploy initiator cannot be one of the production approvers.')
+
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+          }
+
+          for approver in (approver_one, approver_two):
+              url = f'https://api.github.com/repos/{repo}/collaborators/{approver}/permission'
+              response = requests.get(url, headers=headers, timeout=30)
+              if response.status_code != 200:
+                  raise SystemExit(f'Approver {approver} is not a recognized collaborator on {repo}.')
+              permission = response.json().get('permission')
+              if permission not in {'write', 'maintain', 'admin'}:
+                  raise SystemExit(f'Approver {approver} must have write, maintain, or admin access. Found: {permission}')
+
+          body = (
+              f"Production deployment approval request for `{repo}`.\n\n"
+              f"- Ref: `{ref_to_deploy}`\n"
+              f"- Requested by: `{actor}`\n"
+              f"- Summary: {change_summary}\n"
+              f"- Required approvers: `@{approver_one}` and `@{approver_two}`\n\n"
+              "Instructions for approvers:\n"
+              "- comment `/approve` to approve\n"
+              "- comment `/deny` to reject\n\n"
+              "The deploy requester cannot self-approve. This issue is closed automatically when the workflow completes."
+          )
+          response = requests.post(
+              f'https://api.github.com/repos/{repo}/issues',
+              headers=headers,
+              json={'title': f'Production deploy approval: {ref_to_deploy}', 'body': body},
+              timeout=30,
+          )
+          response.raise_for_status()
+          issue_number = response.json()['number']
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write(f'issue_number={issue_number}\n')
+          PY
+
+  wait-for-approvals:
+    name: wait-for-approvals
+    runs-on: ubuntu-latest
+    needs:
+      - open-approval-request
+    steps:
+      - name: Wait for two eligible GitHub approvals
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ needs.open-approval-request.outputs.issue_number }}
+          APPROVER_ONE: ${{ inputs.approver_one }}
+          APPROVER_TWO: ${{ inputs.approver_two }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import time
+          import requests
+
+          token = os.environ['GH_TOKEN']
+          repo = os.environ['REPO']
+          issue_number = os.environ['ISSUE_NUMBER']
+          expected = {os.environ['APPROVER_ONE'].strip(), os.environ['APPROVER_TWO'].strip()}
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+          }
+
+          for _ in range(120):
+              response = requests.get(
+                  f'https://api.github.com/repos/{repo}/issues/{issue_number}/comments',
+                  headers=headers,
+                  timeout=30,
+              )
+              response.raise_for_status()
+              approvals = set()
+              for comment in response.json():
+                  user = comment['user']['login']
+                  body = (comment.get('body') or '').strip().lower()
+                  if user in expected and '/deny' in body:
+                      raise SystemExit(f'Production deploy denied by {user}.')
+                  if user in expected and '/approve' in body:
+                      approvals.add(user)
+              if approvals == expected:
+                  print('Both approvals received.')
+                  raise SystemExit(0)
+              time.sleep(60)
+
+          raise SystemExit('Timed out waiting for two production approvals.')
+          PY
+
+  deploy-production:
+    name: deploy-production
+    runs-on: ubuntu-latest
+    needs:
+      - open-approval-request
+      - wait-for-approvals
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Run production deployment command
+        shell: bash
+        env:
+          PROD_DEPLOY_COMMAND: ${{ secrets.PROD_DEPLOY_COMMAND }}
+        run: |
+          set -euo pipefail
+          if [ -n "${PROD_DEPLOY_COMMAND:-}" ]; then
+            bash -lc "$PROD_DEPLOY_COMMAND"
+          else
+            echo 'No PROD_DEPLOY_COMMAND secret configured. Recording audited dry run.'
+          fi
+      - name: Persist production deployment log
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > production-deploy-log.json <<JSON
+          {
+            "repository": "${{ github.repository }}",
+            "run_id": "${{ github.run_id }}",
+            "ref": "${{ inputs.ref }}",
+            "requested_by": "${{ github.actor }}",
+            "approver_one": "${{ inputs.approver_one }}",
+            "approver_two": "${{ inputs.approver_two }}",
+            "approval_issue": "${{ needs.open-approval-request.outputs.issue_number }}"
+          }
+          JSON
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-deploy-log-${{ github.run_id }}
+          path: production-deploy-log.json
+          retention-days: 30
+
+  close-approval-request:
+    name: close-approval-request
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs:
+      - open-approval-request
+      - wait-for-approvals
+      - deploy-production
+    steps:
+      - name: Close approval issue
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ needs.open-approval-request.outputs.issue_number }}
+          RESULT: ${{ needs.deploy-production.result }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import requests
+
+          token = os.environ['GH_TOKEN']
+          repo = os.environ['REPO']
+          issue_number = os.environ['ISSUE_NUMBER']
+          result = os.environ['RESULT']
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+          }
+          requests.post(
+              f'https://api.github.com/repos/{repo}/issues/{issue_number}/comments',
+              headers=headers,
+              json={'body': f'Workflow finished with result: `{result}`.'},
+              timeout=30,
+          ).raise_for_status()
+          requests.patch(
+              f'https://api.github.com/repos/{repo}/issues/{issue_number}',
+              headers=headers,
+              json={'state': 'closed'},
+              timeout=30,
+          ).raise_for_status()
+          PY
