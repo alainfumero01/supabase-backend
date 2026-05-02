@@ -3,12 +3,188 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: CI placeholder
-        run: echo "CI checks passed"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run lint
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -f package.json ]; then
+            node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('package.json','utf8')); if(!(pkg.scripts||{}).lint){console.error('package.json is present but missing a lint script.'); process.exit(1)}"
+            if [ -f package-lock.json ]; then
+              npm ci
+            else
+              npm install
+            fi
+            npm run lint
+            exit 0
+          fi
+
+          if [ -f pyproject.toml ] || [ -f requirements.txt ] || [ -f requirements-dev.txt ]; then
+            if [ ! -f Makefile ] || ! grep -q '^lint:' Makefile; then
+              echo 'Python repo detected but Makefile lint target is missing.'
+              exit 1
+            fi
+            make lint
+            exit 0
+          fi
+
+          if find . -name '*.tf' -print -quit | grep -q .; then
+            echo 'Terraform detected. Add repo-specific lint logic before merging infrastructure code.'
+            exit 1
+          fi
+
+          echo 'No implementation assets detected yet; bootstrap lint gate passes.'
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run typecheck
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -f package.json ]; then
+            node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('package.json','utf8')); if(!(pkg.scripts||{}).typecheck){console.error('package.json is present but missing a typecheck script.'); process.exit(1)}"
+            if [ -f package-lock.json ]; then
+              npm ci
+            else
+              npm install
+            fi
+            npm run typecheck
+            exit 0
+          fi
+
+          if [ -f pyproject.toml ] || [ -f requirements.txt ] || [ -f requirements-dev.txt ]; then
+            if [ ! -f Makefile ] || ! grep -q '^typecheck:' Makefile; then
+              echo 'Python repo detected but Makefile typecheck target is missing.'
+              exit 1
+            fi
+            make typecheck
+            exit 0
+          fi
+
+          echo 'No implementation assets detected yet; bootstrap typecheck gate passes.'
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run tests
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -f package.json ]; then
+            node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('package.json','utf8')); if(!(pkg.scripts||{}).test){console.error('package.json is present but missing a test script.'); process.exit(1)}"
+            if [ -f package-lock.json ]; then
+              npm ci
+            else
+              npm install
+            fi
+            npm run test
+            exit 0
+          fi
+
+          if [ -f pyproject.toml ] || [ -f requirements.txt ] || [ -f requirements-dev.txt ]; then
+            if [ ! -f Makefile ] || ! grep -q '^test:' Makefile; then
+              echo 'Python repo detected but Makefile test target is missing.'
+              exit 1
+            fi
+            make test
+            exit 0
+          fi
+
+          echo 'No implementation assets detected yet; bootstrap test gate passes.'
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - typecheck
+      - test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run build
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -f package.json ]; then
+            node -e "const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('package.json','utf8')); if(!(pkg.scripts||{}).build){console.error('package.json is present but missing a build script.'); process.exit(1)}"
+            if [ -f package-lock.json ]; then
+              npm ci
+            else
+              npm install
+            fi
+            npm run build
+            exit 0
+          fi
+
+          if [ -f pyproject.toml ] || [ -f requirements.txt ] || [ -f requirements-dev.txt ]; then
+            if [ ! -f Makefile ] || ! grep -q '^build:' Makefile; then
+              echo 'Python repo detected but Makefile build target is missing.'
+              exit 1
+            fi
+            make build
+            exit 0
+          fi
+
+          echo 'No implementation assets detected yet; bootstrap build gate passes.'
+
+  rollback-smoke-test:
+    name: rollback-smoke-test
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    env:
+      ROLLBACK_TARGET: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.sha }}
+    steps:
+      - name: Generate rollback manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > rollback-smoke.json <<JSON
+          {
+            "repository": "${{ github.repository }}",
+            "run_id": "${{ github.run_id }}",
+            "rollback_target": "$ROLLBACK_TARGET",
+            "validated_by": "${{ github.actor }}"
+          }
+          JSON
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rollback-smoke-${{ github.run_id }}
+          path: rollback-smoke.json
+          retention-days: 30
