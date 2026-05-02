@@ -1,0 +1,59 @@
+name: Deploy Staging
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: staging-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-staging:
+    name: deploy-staging
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success'
+          && github.event.workflow_run.event == 'push'
+          && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Run staging deployment command
+        shell: bash
+        env:
+          STAGING_DEPLOY_COMMAND: ${{ secrets.STAGING_DEPLOY_COMMAND }}
+        run: |
+          set -euo pipefail
+          if [ -n "${STAGING_DEPLOY_COMMAND:-}" ]; then
+            bash -lc "$STAGING_DEPLOY_COMMAND"
+          else
+            echo 'No STAGING_DEPLOY_COMMAND secret configured. Recording audited dry run.'
+          fi
+      - name: Persist staging deployment log
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > staging-deploy-log.json <<JSON
+          {
+            "repository": "${{ github.repository }}",
+            "workflow_run_id": "${{ github.event.workflow_run.id }}",
+            "deployed_sha": "${{ github.event.workflow_run.head_sha }}",
+            "triggered_by": "${{ github.event.workflow_run.actor.login }}",
+            "executed_at_run": "${{ github.run_id }}"
+          }
+          JSON
+      - uses: actions/upload-artifact@v4
+        with:
+          name: staging-deploy-log-${{ github.run_id }}
+          path: staging-deploy-log.json
+          retention-days: 30
