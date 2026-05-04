@@ -8,11 +8,11 @@ on:
         required: true
         default: main
       approver_one:
-        description: First GitHub reviewer username
-        required: true
+        description: First GitHub reviewer username (required for non-bypass users)
+        required: false
       approver_two:
-        description: Second GitHub reviewer username
-        required: true
+        description: Second GitHub reviewer username (required for non-bypass users)
+        required: false
       change_summary:
         description: Short deployment summary
         required: true
@@ -28,6 +28,7 @@ concurrency:
 
 jobs:
   open-approval-request:
+    if: ${{ github.actor != 'alainfumero01' }}
     name: open-approval-request
     runs-on: ubuntu-latest
     outputs:
@@ -59,7 +60,7 @@ jobs:
           change_summary = os.environ['CHANGE_SUMMARY'].strip()
 
           if not approver_one or not approver_two:
-              raise SystemExit('Both approver usernames are required.')
+              raise SystemExit('Both approver usernames are required for non-bypass deploys.')
           if approver_one == approver_two:
               raise SystemExit('Two distinct approvers are required.')
           if actor in {approver_one, approver_two}:
@@ -104,6 +105,7 @@ jobs:
           PY
 
   wait-for-approvals:
+    if: ${{ github.actor != 'alainfumero01' }}
     name: wait-for-approvals
     runs-on: ubuntu-latest
     needs:
@@ -158,6 +160,7 @@ jobs:
           PY
 
   deploy-production:
+    if: ${{ always() && (github.actor == 'alainfumero01' || (needs.open-approval-request.result == 'success' && needs.wait-for-approvals.result == 'success')) }}
     name: deploy-production
     runs-on: ubuntu-latest
     needs:
@@ -191,7 +194,7 @@ jobs:
             "requested_by": "${{ github.actor }}",
             "approver_one": "${{ inputs.approver_one }}",
             "approver_two": "${{ inputs.approver_two }}",
-            "approval_issue": "${{ needs.open-approval-request.outputs.issue_number }}"
+            "approval_issue": "${{ github.actor == 'alainfumero01' && 'bypassed-for-owner-admin' || needs.open-approval-request.outputs.issue_number }}"
           }
           JSON
       - uses: actions/upload-artifact@v4
@@ -201,8 +204,8 @@ jobs:
           retention-days: 30
 
   close-approval-request:
+    if: ${{ always() && github.actor != 'alainfumero01' }}
     name: close-approval-request
-    if: ${{ always() }}
     runs-on: ubuntu-latest
     needs:
       - open-approval-request
