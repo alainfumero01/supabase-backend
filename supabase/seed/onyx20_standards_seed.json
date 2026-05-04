@@ -1,0 +1,975 @@
+{
+  "standards_repository": [
+    {
+      "standard_code": "STD-001",
+      "title": "GWO Blade Repair Training Standard V6",
+      "standard_type": "safety",
+      "issuing_body": "Global Wind Organisation",
+      "version_label": "V6",
+      "summary": "Training and workmanship baseline for non-structural composite blade repairs performed in the field.",
+      "document_uri": "https://www.globalwindsafety.org/standards/blade-repair-training-standard",
+      "requirements": [
+        {
+          "requirement_code": "GWO-SCOPE",
+          "title": "Non-structural scope gate",
+          "damage_codes": [
+            "A3",
+            "A4",
+            "B1",
+            "B6",
+            "D2"
+          ],
+          "excerpt": "Repairs above five laminate layers or 500 square centimeters require engineering escalation and move outside normal GWO field scope.",
+          "citation": "GWO BR V6 scope gate"
+        },
+        {
+          "requirement_code": "GWO-AERO",
+          "title": "Aerodynamic restoration",
+          "damage_codes": [
+            "A2",
+            "A3",
+            "A6",
+            "A7"
+          ],
+          "excerpt": "Completed repairs must restore the aerodynamic profile and finish without voids or dry fibre in the repair zone.",
+          "citation": "GWO BR V6 craftsmanship requirements"
+        },
+        {
+          "requirement_code": "GWO-DELAM",
+          "title": "Small delamination eligibility",
+          "damage_codes": [
+            "B1"
+          ],
+          "excerpt": "Small non-structural delaminations can be handled with field wet layup when the repair remains within scope and passes post-cure inspection.",
+          "citation": "GWO BR V6 laminate repair competency"
+        },
+        {
+          "requirement_code": "GWO-COSMETIC",
+          "title": "Cosmetic surface repairs",
+          "damage_codes": [
+            "A6",
+            "A7",
+            "D3"
+          ],
+          "excerpt": "Gelcoat cracking, paint loss, and comparable cosmetic damage can be treated through standard prep, fill, and repaint workflows.",
+          "citation": "GWO BR V6 cosmetic repair baseline"
+        },
+        {
+          "requirement_code": "GWO-CLEAN",
+          "title": "Pre-repair cleanliness",
+          "damage_codes": [
+            "D2"
+          ],
+          "excerpt": "Surface cleanliness and technician PPE controls are required before composite repair materials are mixed or applied.",
+          "citation": "GWO BR V6 safety and prep requirements"
+        }
+      ],
+      "is_active": true
+    },
+    {
+      "standard_code": "STD-002",
+      "title": "DNV-ST-0376 Rotor Blades for Wind Turbines",
+      "standard_type": "regulatory",
+      "issuing_body": "DNV",
+      "version_label": "2024 revision cited",
+      "summary": "Engineering and certification standard covering structural blade design, repair qualification, and residual strength expectations.",
+      "document_uri": "https://www.dnv.com/energy/standards-guidelines/dnv-st-0376-rotor-blades-for-wind-turbines/",
+      "requirements": [
+        {
+          "requirement_code": "DNV-STRUCT",
+          "title": "Structural zone escalation",
+          "damage_codes": [
+            "B2",
+            "B4",
+            "C1",
+            "C3",
+            "C4",
+            "E2",
+            "E5"
+          ],
+          "excerpt": "Damage in spar caps, shear webs, root inserts, or other primary structural zones requires engineering review and qualification of the repair approach.",
+          "citation": "DNV-ST-0376 structural zone rule"
+        },
+        {
+          "requirement_code": "DNV-NDT",
+          "title": "Post-repair NDT",
+          "damage_codes": [
+            "A5",
+            "B2",
+            "B4",
+            "C4",
+            "D5"
+          ],
+          "excerpt": "Structural repairs need post-repair NDT such as UT or thermography to verify restored integrity before closeout.",
+          "citation": "DNV-ST-0376 verification requirement"
+        },
+        {
+          "requirement_code": "DNV-MATERIAL",
+          "title": "Material qualification",
+          "damage_codes": [
+            "B4",
+            "B5",
+            "E1",
+            "E5"
+          ],
+          "excerpt": "Repair materials must be qualified so the repaired region maintains suitable residual properties for the parent structure.",
+          "citation": "DNV-ST-0376 material compatibility"
+        },
+        {
+          "requirement_code": "DNV-BOND",
+          "title": "Bondline criticality",
+          "damage_codes": [
+            "B7",
+            "C2",
+            "C3",
+            "C4"
+          ],
+          "excerpt": "Bondline failures that affect shell joins or internal webs are treated as structural concerns rather than cosmetic defects.",
+          "citation": "DNV-ST-0376 bondline guidance"
+        }
+      ],
+      "is_active": true
+    },
+    {
+      "standard_code": "STD-003",
+      "title": "IEA Wind Task 46 Leading Edge Erosion Classification System",
+      "standard_type": "repair",
+      "issuing_body": "IEA Wind TCP",
+      "version_label": "2023 report",
+      "summary": "Standardized erosion classification and urgency model for leading edge damage and AEP impact.",
+      "document_uri": "https://iea-wind.org/wp-content/uploads/2023/02/IEA-Wind-Task-46-Erosion-Classification-System-report.pdf",
+      "requirements": [
+        {
+          "requirement_code": "IEA-CLASS1",
+          "title": "Class 1 roughening",
+          "damage_codes": [
+            "A1"
+          ],
+          "excerpt": "Class 1 roughening is generally a monitor or light-protection condition with minimal aerodynamic loss.",
+          "citation": "IEA Task 46 class 1"
+        },
+        {
+          "requirement_code": "IEA-CLASS2",
+          "title": "Class 2 coating loss",
+          "damage_codes": [
+            "A2"
+          ],
+          "excerpt": "Class 2 erosion exposes coating loss and typically routes into a field coating restoration workflow.",
+          "citation": "IEA Task 46 class 2"
+        },
+        {
+          "requirement_code": "IEA-CLASS3",
+          "title": "Class 3 gelcoat erosion",
+          "damage_codes": [
+            "A3"
+          ],
+          "excerpt": "Class 3 erosion needs profile rebuild and protective recoating before aerodynamic losses compound.",
+          "citation": "IEA Task 46 class 3"
+        },
+        {
+          "requirement_code": "IEA-CLASS4",
+          "title": "Class 4 laminate erosion",
+          "damage_codes": [
+            "A4"
+          ],
+          "excerpt": "Class 4 erosion exposes laminate and raises both moisture-ingress and structural concerns, pushing repair toward wet layup or escalation.",
+          "citation": "IEA Task 46 class 4"
+        },
+        {
+          "requirement_code": "IEA-CLASS5",
+          "title": "Class 5 deep structural erosion",
+          "damage_codes": [
+            "A5"
+          ],
+          "excerpt": "Class 5 erosion is a structural concern with urgent repair and engineering review expectations.",
+          "citation": "IEA Task 46 class 5"
+        },
+        {
+          "requirement_code": "IEA-ICE",
+          "title": "Icing follow-up",
+          "damage_codes": [
+            "D4"
+          ],
+          "excerpt": "Post-thaw icing damage should be reclassified by the resulting physical defect before final repair scope is chosen.",
+          "citation": "IEA Task 46 contextual icing guidance"
+        }
+      ],
+      "is_active": true
+    },
+    {
+      "standard_code": "STD-004",
+      "title": "SAND2021-12461 Alternative Damage Standards",
+      "standard_type": "quality",
+      "issuing_body": "Sandia National Laboratories",
+      "version_label": "2021",
+      "summary": "Damage tolerance and allowable flaw-size concepts that support monitor-versus-repair decisions.",
+      "document_uri": "https://www.osti.gov/servlets/purl/1825355",
+      "requirements": [
+        {
+          "requirement_code": "SAND-MONITOR",
+          "title": "Allowable flaw gate",
+          "damage_codes": [
+            "A1",
+            "B3",
+            "C5",
+            "D1"
+          ],
+          "excerpt": "Some flaws can remain in service when size, growth risk, and structural context stay below defined tolerance thresholds.",
+          "citation": "SAND2021 damage tolerance principle"
+        },
+        {
+          "requirement_code": "SAND-ESCALATE",
+          "title": "Service versus repair threshold",
+          "damage_codes": [
+            "A5",
+            "B2",
+            "C4"
+          ],
+          "excerpt": "When flaws exceed tolerance or threaten load paths, the decision logic shifts from monitor to immediate repair or shutdown planning.",
+          "citation": "SAND2021 leave-in-service decision gate"
+        }
+      ],
+      "is_active": true
+    },
+    {
+      "standard_code": "STD-005",
+      "title": "ASTM D5528 Mode I Interlaminar Fracture Toughness",
+      "standard_type": "quality",
+      "issuing_body": "ASTM International",
+      "version_label": "D5528",
+      "summary": "Material qualification method used to verify repair resin resistance to delamination opening loads.",
+      "document_uri": "https://www.astm.org/d5528-13.html",
+      "requirements": [
+        {
+          "requirement_code": "ASTM-D5528-QUAL",
+          "title": "Mode I repair material qualification",
+          "damage_codes": [
+            "B1",
+            "B2",
+            "E1",
+            "E3"
+          ],
+          "excerpt": "Repair systems should meet or exceed the parent laminate Mode I fracture toughness needed to avoid bondline delamination failure.",
+          "citation": "ASTM D5528 qualification basis"
+        }
+      ],
+      "is_active": true
+    },
+    {
+      "standard_code": "STD-006",
+      "title": "ASTM D6671 Mixed Mode I/II Interlaminar Fracture Toughness",
+      "standard_type": "quality",
+      "issuing_body": "ASTM International",
+      "version_label": "D6671",
+      "summary": "Mixed-mode fracture toughness method used where repaired laminates experience peel and shear together.",
+      "document_uri": "https://www.astm.org/d6671_d6671m-13.html",
+      "requirements": [
+        {
+          "requirement_code": "ASTM-D6671-QUAL",
+          "title": "Mixed-mode repair material qualification",
+          "damage_codes": [
+            "C5",
+            "E1",
+            "E3"
+          ],
+          "excerpt": "Mixed-mode fracture performance matters when repaired laminates see combined peel and shear loads during blade bending and torsion.",
+          "citation": "ASTM D6671 qualification basis"
+        }
+      ],
+      "is_active": true
+    },
+    {
+      "standard_code": "STD-007",
+      "title": "FAA AC 43-214A Composite and Bonded Structure Repairs",
+      "standard_type": "regulatory",
+      "issuing_body": "Federal Aviation Administration",
+      "version_label": "AC 43-214A",
+      "summary": "Public composite repair procedure reference used for scarf ratios, cure control, and post-repair inspection logic.",
+      "document_uri": "https://www.faa.gov/documentLibrary/media/Advisory_Circular/AC_43-214A.pdf",
+      "requirements": [
+        {
+          "requirement_code": "FAA-SCARF",
+          "title": "Structural scarf taper",
+          "damage_codes": [
+            "B2",
+            "B4",
+            "B5",
+            "E4",
+            "E5"
+          ],
+          "excerpt": "Structural scarf repairs commonly use taper ratios in the twenty-to-one to fifty-to-one range depending on material and depth.",
+          "citation": "FAA AC 43-214A scarf ratio guidance"
+        },
+        {
+          "requirement_code": "FAA-CURE",
+          "title": "Cure verification",
+          "damage_codes": [
+            "B1",
+            "B2",
+            "E1",
+            "E3"
+          ],
+          "excerpt": "Composite repairs need documented cure controls and verification such as hardness checks before the repair is released.",
+          "citation": "FAA AC 43-214A cure verification"
+        },
+        {
+          "requirement_code": "FAA-INSPECT",
+          "title": "Inspection after repair",
+          "damage_codes": [
+            "B1",
+            "B2",
+            "B6",
+            "C5",
+            "D5"
+          ],
+          "excerpt": "Visual inspection, tap testing, and UT are used as closeout checks based on whether the repair is cosmetic, non-structural, or structural.",
+          "citation": "FAA AC 43-214A post-repair inspection"
+        },
+        {
+          "requirement_code": "FAA-DAMAGE-CLASS",
+          "title": "Damage class routing",
+          "damage_codes": [
+            "A6",
+            "B6",
+            "E4"
+          ],
+          "excerpt": "Composite damage should be classified as cosmetic, non-structural, structural, or primary-structure before repair scope is selected.",
+          "citation": "FAA AC 43-214A repair class framework"
+        }
+      ],
+      "is_active": true
+    }
+  ],
+  "damage_repair_mapping": [
+    {
+      "damage_code": "A1",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-00",
+      "repair_name": "Monitor only",
+      "standard_code": "STD-003",
+      "default_scope": "tier=T1|severity=S1|zone=leading_edge|gwo=within_scope|notes=optional_lep_tape_for_protection",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.2,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A1",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-00",
+      "repair_name": "Monitor only",
+      "standard_code": "STD-004",
+      "default_scope": "tier=T1|severity=S1|zone=leading_edge|gwo=within_scope|notes=optional_lep_tape_for_protection",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.2,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A2",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-02",
+      "repair_name": "LEP coating application",
+      "standard_code": "STD-003",
+      "default_scope": "tier=T1|severity=S2|zone=leading_edge|gwo=within_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.4,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A3",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-03",
+      "repair_name": "Surface preparation plus filler plus LEP coating",
+      "standard_code": "STD-003",
+      "default_scope": "tier=T2|severity=S2-S3|zone=leading_edge|gwo=within_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A3",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-03",
+      "repair_name": "Surface preparation plus filler plus LEP coating",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T2|severity=S2-S3|zone=leading_edge|gwo=within_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A4",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-04",
+      "repair_name": "Grinding plus wet layup plus LEP coating",
+      "standard_code": "STD-003",
+      "default_scope": "tier=T3|severity=S3-S4|zone=leading_edge|gwo=conditional_scope|notes=escalate_if_layers_gt_5_or_area_gt_500cm2",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A4",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-04",
+      "repair_name": "Grinding plus wet layup plus LEP coating",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T3|severity=S3-S4|zone=leading_edge|gwo=conditional_scope|notes=escalate_if_layers_gt_5_or_area_gt_500cm2",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A5",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-05",
+      "repair_name": "Structural scarf repair plus LEP coating",
+      "standard_code": "STD-003",
+      "default_scope": "tier=T4|severity=S4-S5|zone=leading_edge_tip|gwo=engineering_required",
+      "min_severity_score": 0.6,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "A5",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-05",
+      "repair_name": "Structural scarf repair plus LEP coating",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T4|severity=S4-S5|zone=leading_edge_tip|gwo=engineering_required",
+      "min_severity_score": 0.6,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "A6",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-06",
+      "repair_name": "Sand, fill, prime, repaint",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T1|severity=S1-S2|zone=shell_surface|gwo=within_scope",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.4,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A6",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-06",
+      "repair_name": "Sand, fill, prime, repaint",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T1|severity=S1-S2|zone=shell_surface|gwo=within_scope",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.4,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "A7",
+      "damage_category": "surface_erosion",
+      "recommended_repair_code": "RM-07",
+      "repair_name": "Sand, clean, repaint",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T1|severity=S1|zone=shell_surface|gwo=within_scope",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.2,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B1",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-08",
+      "repair_name": "Wet layup patch repair",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T2|severity=S2-S3|zone=shell_panel|gwo=conditional_scope|notes=only_when_non_structural_and_area_lte_500cm2",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B1",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-08",
+      "repair_name": "Wet layup patch repair",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T2|severity=S2-S3|zone=shell_panel|gwo=conditional_scope|notes=only_when_non_structural_and_area_lte_500cm2",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B2",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-09",
+      "repair_name": "Scarf repair plus engineering sign-off",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T4|severity=S4-S5|zone=spar_cap_or_shear_web|gwo=engineering_required",
+      "min_severity_score": 0.6,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "B2",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-09",
+      "repair_name": "Scarf repair plus engineering sign-off",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T4|severity=S4-S5|zone=spar_cap_or_shear_web|gwo=engineering_required",
+      "min_severity_score": 0.6,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "B3",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-10",
+      "repair_name": "Resin injection plus monitoring",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T2|severity=S2|zone=shell_or_flange|gwo=within_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.4,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B3",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-10",
+      "repair_name": "Resin injection plus monitoring",
+      "standard_code": "STD-004",
+      "default_scope": "tier=T2|severity=S2|zone=shell_or_flange|gwo=within_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.4,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B4",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-09",
+      "repair_name": "Scarf repair plus engineering sign-off",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T4|severity=S4-S5|zone=spar_cap|gwo=engineering_required",
+      "min_severity_score": 0.6,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "B5",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-11",
+      "repair_name": "Scarf repair focused on ply-drop zone",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T4|severity=S3-S4|zone=spar_cap_transition|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "B6",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-12",
+      "repair_name": "Severity-dependent impact repair",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T3|severity=S2-S4|zone=any_zone|gwo=conditional_scope|notes=choose_fill_patch_or_scarf_by_depth_and_hidden_damage",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B6",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-12",
+      "repair_name": "Severity-dependent impact repair",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T3|severity=S2-S4|zone=any_zone|gwo=conditional_scope|notes=choose_fill_patch_or_scarf_by_depth_and_hidden_damage",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "B7",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-13",
+      "repair_name": "Adhesive injection or rebond plus laminate reinforcement",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T3|severity=S3-S4|zone=trailing_edge|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "B8",
+      "damage_category": "structural_laminate",
+      "recommended_repair_code": "RM-14",
+      "repair_name": "Core stabilization plus vacuum infusion finishing",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T3|severity=S2-S3|zone=sandwich_shell|gwo=conditional_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "C1",
+      "damage_category": "adhesive_bond",
+      "recommended_repair_code": "RM-15",
+      "repair_name": "Engineering-managed root rebuild",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T5|severity=S5|zone=root_zone|gwo=engineering_required",
+      "min_severity_score": 0.8,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 200,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "C2",
+      "damage_category": "adhesive_bond",
+      "recommended_repair_code": "RM-16",
+      "repair_name": "Open, clean, re-bond plus laminate reinforcement",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T3|severity=S3-S4|zone=trailing_edge|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 48,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "C3",
+      "damage_category": "adhesive_bond",
+      "recommended_repair_code": "RM-17",
+      "repair_name": "Open bondline, clean, rebond, structural assessment",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T4|severity=S3-S5|zone=leading_edge_bondline|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "C4",
+      "damage_category": "adhesive_bond",
+      "recommended_repair_code": "RM-18",
+      "repair_name": "Emergency internal access rebond",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T5|severity=S5|zone=shear_web|gwo=engineering_required",
+      "min_severity_score": 0.8,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 200,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "C5",
+      "damage_category": "adhesive_bond",
+      "recommended_repair_code": "RM-10",
+      "repair_name": "Resin injection plus monitoring",
+      "standard_code": "STD-006",
+      "default_scope": "tier=T2|severity=S2-S3|zone=bondline|gwo=within_scope|notes=escalate_if_growth_detected",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "C5",
+      "damage_category": "adhesive_bond",
+      "recommended_repair_code": "RM-10",
+      "repair_name": "Resin injection plus monitoring",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T2|severity=S2-S3|zone=bondline|gwo=within_scope|notes=escalate_if_growth_detected",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "D1",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-19",
+      "repair_name": "Dry blade, seal breach, post-repair UT",
+      "standard_code": "STD-004",
+      "default_scope": "tier=T2|severity=S2-S4|zone=breached_zone|gwo=conditional_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "D1",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-19",
+      "repair_name": "Dry blade, seal breach, post-repair UT",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T2|severity=S2-S4|zone=breached_zone|gwo=conditional_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "D2",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-20",
+      "repair_name": "Solvent clean plus Bresle salt test",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T1|severity=S1|zone=full_span_surface|gwo=within_scope",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.2,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "D3",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-21",
+      "repair_name": "Sanding plus UV-resistant primer plus topcoat",
+      "standard_code": "STD-001",
+      "default_scope": "tier=T1|severity=S1-S2|zone=uv_exposed_surface|gwo=within_scope",
+      "min_severity_score": 0.0,
+      "max_severity_score": 0.4,
+      "estimated_labor_hours": 4,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "D4",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-22",
+      "repair_name": "Post-thaw inspection and class-based repair",
+      "standard_code": "STD-003",
+      "default_scope": "tier=T2|severity=S2-S3|zone=leading_edge_outer_span|gwo=conditional_scope|notes=route_to_damage_class_after_thaw_inspection",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 16,
+      "estimated_material_cost": null,
+      "approval_required": false,
+      "is_active": true
+    },
+    {
+      "damage_code": "D5",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-23",
+      "repair_name": "Receptor replacement plus UT plus laminate repair",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T4|severity=S3-S5|zone=tip_zone|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "D5",
+      "damage_category": "environmental_contamination",
+      "recommended_repair_code": "RM-23",
+      "repair_name": "Receptor replacement plus UT plus laminate repair",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T4|severity=S3-S5|zone=tip_zone|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E1",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-24",
+      "repair_name": "Resin injection or scarf repair by significance",
+      "standard_code": "STD-005",
+      "default_scope": "tier=T4|severity=S3-S4|zone=laminate_zone|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E1",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-24",
+      "repair_name": "Resin injection or scarf repair by significance",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T4|severity=S3-S4|zone=laminate_zone|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E2",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-25",
+      "repair_name": "Engineering assessment plus local reinforcement",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T5|severity=S3-S5|zone=spar_cap|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 200,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E3",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-24",
+      "repair_name": "Resin injection or scarf repair by significance",
+      "standard_code": "STD-005",
+      "default_scope": "tier=T4|severity=S2-S3|zone=laminate_zone|gwo=conditional_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E3",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-24",
+      "repair_name": "Resin injection or scarf repair by significance",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T4|severity=S2-S3|zone=laminate_zone|gwo=conditional_scope",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.6,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E4",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-26",
+      "repair_name": "Remove object plus wet layup or scarf repair",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T4|severity=S2-S4|zone=laminate_zone|gwo=engineering_required",
+      "min_severity_score": 0.2,
+      "max_severity_score": 0.8,
+      "estimated_labor_hours": 96,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E5",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-27",
+      "repair_name": "Engineering assessment plus reinforcement or section replacement",
+      "standard_code": "STD-002",
+      "default_scope": "tier=T5|severity=S3-S5|zone=spar_cap_or_web|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 200,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    },
+    {
+      "damage_code": "E5",
+      "damage_category": "manufacturing_defect",
+      "recommended_repair_code": "RM-27",
+      "repair_name": "Engineering assessment plus reinforcement or section replacement",
+      "standard_code": "STD-007",
+      "default_scope": "tier=T5|severity=S3-S5|zone=spar_cap_or_web|gwo=engineering_required",
+      "min_severity_score": 0.4,
+      "max_severity_score": 1.0,
+      "estimated_labor_hours": 200,
+      "estimated_material_cost": null,
+      "approval_required": true,
+      "is_active": true
+    }
+  ]
+}
