@@ -48,16 +48,20 @@ The CI workflow also runs a rollback smoke test so the rollback manifest path is
 
 ## Schema Assets
 
-The ONYX-15 ERP database foundation is versioned in this repository:
+The current database foundations versioned in this repository are:
 
 - `supabase/migrations/20260502165000_onyx15_erp_foundation.sql`
+- `supabase/migrations/20260504102309_onyx16_windfix_ai_schema.sql`
 - `docs/erp-schema.md`
+- `docs/windfix-ai-schema.md`
 
 Highlights:
 
 - covers Finance, HR, and Operations base tables
+- adds the Windfix AI case workflow schema from case intake through ERP archival
 - enables and forces RLS on every application table in `public`
 - keeps the schema default-deny by shipping no allow-policies yet
 - makes `audit_log` append-only with DB triggers
 - enforces DB-level separation of duties for payroll approvals and wire transfer authorizations
+- enforces Windfix case-to-ERP consistency for work orders and clients with DB triggers
 - applied and verified on Supabase dev environment `qentzpnjewwlzitrigsu`
